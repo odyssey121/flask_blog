@@ -28,7 +28,10 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="https://getbootstrap.com/">Тут поиск</a>
+        <form class="form-inline my-2 my-lg-0" method="GET">
+          <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search"
+          name="query" value="{{request.args.get('query','')}}">
+        </form>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Меню
           <i class="fas fa-bars"></i>
@@ -71,15 +74,15 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          {% for post in posts %}
+          {% for post in pages.items %}
 
           <div class="post-preview">
-            <a href="post.html">
+            <a href="{{url_for('blogs.post_detail', slug = post.slug)}}">
               <h2 class="post-title">
                 {{post.title}}
               </h2>
               <h3 class="post-subtitle">
-                Пост субтитл
+                {{post.subtitle | title}}
               </h3>
             </a>
             <p class="post-meta">Posted by
@@ -89,7 +92,7 @@
           <hr>
 
           {% endfor %}
-          {% if not posts %} 
+          {% if not pages.items %} 
           <h3 class="post-subtitle">
             Печально но пока еще нету постов
           </h3>
@@ -98,7 +101,8 @@
             </div>
           {% else %}
             <div class="clearfix">
-            <a class="btn btn-primary float-right" href="#">Дальше &rarr;</a>
+
+            <a class="btn btn-primary float-right" href="./?page={{pages.next_num}}">Ещё &rarr;</a>
             </div>
           {%endif%}
           <!-- Pager -->
