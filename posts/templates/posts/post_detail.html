@@ -77,12 +77,27 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             {{post.content}}
           </div>
+          </div>
+        </div>
+    </article>
+    <div class="container">
+      <hr>
+    </div>
+    <div class="clearfix">
+    <div class="container">
+      <div class="row">
+        <div class="tag">
+          <span class="meta">
+                {% for tag in tags %}
+
+                  <a class="btn btn-primary" href="#" role="button">{{tag.title}}</a>
+
+                {%endfor%}
+            </span>
         </div>
       </div>
-    </article>
-
+    </div>
     <hr>
-
     <!-- Footer -->
     <footer>
       <div class="container">

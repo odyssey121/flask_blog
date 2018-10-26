@@ -2,7 +2,8 @@ from flask import Blueprint
 from flask import render_template
 
 from flask import request,redirect,url_for,request
-from models import Post
+from models import Tag,Post
+from flask_security import login_required
 from app import db
 from .forms import FormPost
 
@@ -30,7 +31,22 @@ def index():
 @posts.route('/<slug>')
 def post_detail(slug):
 	post = Post.query.filter(Post.slug == slug).first()
-	return render_template('posts/post_detail.html', post = post)
+	tags = post.tags
+	return render_template('posts/post_detail.html', post = post, tags = tags)
+
+@posts.route('/tag/<slug>')
+@login_required
+def tag_detail(slug):
+	page = request.args.get('page')
+	if page and page.isdigit():
+		page = int(page)
+	else:
+		page = 1
+
+	tag = Tag.query.filter(Tag.slug == slug).first()
+	posts = tag.posts.order_by(Post.date_posted.desc())
+	pages = posts.paginate(page = page, per_page = 5)
+	return render_template('posts/tag_detail.html', tag = tag, pages = pages)
 
 
 @posts.route('/create', methods = ['POST','GET'])
@@ -38,8 +54,12 @@ def create():
 	if request.method == 'POST':
 		title = request.form.get('title')
 		content = request.form.get('content')
+		tag = request.form.get('tag')
+		print(tag)
 		try:
+			tag = Tag.query.filter(Tag.title == tag).first()
 			post = Post(title = title, content = content)
+			post.tags.append(tag)
 			db.session.add(post)
 			db.session.commit()
 		except:
