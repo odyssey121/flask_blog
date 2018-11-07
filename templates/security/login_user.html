@@ -71,7 +71,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
+          <h1>{{ _('Login') }}</h1>
           {% from "security/_macros.html" import render_field_with_errors, render_field %}
           {% include "security/_messages.html" %}
           <form ation="{{ url_for_security('login') }}"method="POST" name="login_user_form">      
