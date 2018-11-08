@@ -13,7 +13,7 @@ def about():
 def contact():
 	return render_template("contact.html")
 
-# @app.route("/login")
-# def login():
-# 	return render_template("index.html")
+@app.route("/login")
+def login():
+	return render_template("security/login_user.html")
 

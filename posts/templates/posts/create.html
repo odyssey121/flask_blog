@@ -28,13 +28,25 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="https://getbootstrap.com/">Start Bootstrap</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Меню
           <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <li class='nav-item'>
+              <a class="navbar-brand">
+              {%if  current_user.name %}Привет {{current_user.name}}!!!
+              <a class="navbar-brand" href="{{url_for('security.logout')}}">Logout</a>
+              {%else%}
+              <a class="navbar-brand" href="{{url_for('security.login')}}">Login</a> {%endif%}
+              </a>
+              {%if current_user.has_role('admin')%}
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('admin.index')}}">Админка</a>
+            </li>
+            {%endif%}
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('index')}}">Главная</a>
             </li>
